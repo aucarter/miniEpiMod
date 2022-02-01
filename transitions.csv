@@ -1,0 +1,4 @@
+from,to,prob
+I,T,0.2
+T,S,0.5
+I,S,0.05

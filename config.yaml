@@ -1,0 +1,23 @@
+{
+  "run": {
+    "location": "Uganda"
+  },
+  "params": {
+    "N": 35,
+    "step": 10,
+    "year_start": 1985,
+    "foi": {
+      "n_params": 8
+    },
+    "likelihood": {
+      "smooth_penalty": 0
+    },
+    "eq_x0": 1,
+    "transitions": {
+      "path": "transitions.csv"
+    },
+  },
+  "data": {
+    "source": "MAP"
+  }
+}

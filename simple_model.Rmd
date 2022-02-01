@@ -1,0 +1,64 @@
+---
+title: "Discrete-time model intro"
+author: "Austin Carter"
+date: "1/18/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("simple_model_fit_fn.R")
+```
+
+## Simple S-I-S Model
+
+```{r}
+N <- 50
+transitions <- data.frame(matrix(
+  c(
+    "S", "I", 0.08,
+    "I", "S", 0.04
+  )
+  , ncol = 3, byrow = T))
+colnames(transitions) <- c("from", "to", "prob")
+transitions$prob<- as.numeric(transitions$prob)
+tpm <- make_tpm(transitions)
+x_t <- run_sim(transitions, N, eq_x0 = F)
+plot_x_t(x_t)
+```
+
+
+```{r}
+# Params
+N <- 100
+foi_n_params <- 4
+eq_x0 <- F
+
+# Transitions
+transitions <- data.frame(matrix(
+  c(
+    "I", "T", 0.4,
+    "T", "S", 0.5,
+    "I", "S", 0.05
+    # "I", "D", 0.001,
+    # "T", "D", 0.00001
+  )
+  , ncol = 3, byrow = T))
+colnames(transitions) <- c("from", "to", "prob")
+transitions$prob<- as.numeric(transitions$prob)
+
+# Data
+data <- data.frame(
+  "time" = c(10, 20, 35, 60) + 10,
+  "state" = c("I", "I", "I", "I"),
+  "mean" = c(0.6, 0.8, 0.7, 0.5) - 0.4,
+  "sd" = c(0.03, 0.01, 0.01, 0.05)
+)
+data$lower <- data$mean - 1.96*data$sd
+data$upper <- data$mean + 1.96*data$sd
+
+
+out <- main(transitions, data, N, foi_n_params, eq_x0)
+plot(out$foi, type = 'l')
+```
+
