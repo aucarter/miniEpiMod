@@ -11,3 +11,5 @@ fit <- fit_sim(params, obj_fun, data)
 x_t <- run_fit_sim(fit, params)
 plot_x_t(x_t, params, run, data)
 
+fit_foi <- foi_fn(fit, params$N * floor(365 / params$step))
+plot(fit_foi, type = 'l')

@@ -11,9 +11,12 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 LinkingTo: 
     Rcpp,
-    RcppEigen
+    RcppEigen,
+    TMB
 Imports: 
+    Matrix,
     Rcpp,
+    TMB (>= 1.7.22),
     malariaAtlas
 Suggests: 
     testthat (>= 3.0.0)

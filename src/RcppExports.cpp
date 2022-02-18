@@ -11,22 +11,21 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// simForward
-Eigen::MatrixXd simForward(Eigen::VectorXd x, Eigen::MatrixXd tpm, int N);
-RcppExport SEXP _miniEpiMod_simForward(SEXP xSEXP, SEXP tpmSEXP, SEXP NSEXP) {
+// simForwardR
+Rcpp::List simForwardR(double foi, int N);
+RcppExport SEXP _miniEpiMod_simForwardR(SEXP foiSEXP, SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Eigen::VectorXd >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Eigen::MatrixXd >::type tpm(tpmSEXP);
+    Rcpp::traits::input_parameter< double >::type foi(foiSEXP);
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(simForward(x, tpm, N));
+    rcpp_result_gen = Rcpp::wrap(simForwardR(foi, N));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_miniEpiMod_simForward", (DL_FUNC) &_miniEpiMod_simForward, 3},
+    {"_miniEpiMod_simForwardR", (DL_FUNC) &_miniEpiMod_simForwardR, 2},
     {NULL, NULL, 0}
 };
 

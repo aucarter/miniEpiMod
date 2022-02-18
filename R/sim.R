@@ -59,3 +59,12 @@ run_sim <- function(params, foi = NULL) {
   colnames(x_t) <-
   return(x_t)
 }
+
+sim_forward <- function(x, tpm, N) {
+  x_out <- matrix(nrow = length(x), ncol = N)
+  x_out[, 1] <- x
+  for (i in 2:N) {
+    x_out[, i] <- as.vector(tpm %*% x_out[, i - 1])
+  }
+  return (x_out)
+}

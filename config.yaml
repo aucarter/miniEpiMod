@@ -7,10 +7,10 @@
     "step": 10,
     "year_start": 1985,
     "foi": {
-      "n_params": 8
+      "n_params": 1
     },
     "likelihood": {
-      "smooth_penalty": 0
+      "smooth_penalty": 1
     },
     "eq_x0": 1,
     "transitions": {
