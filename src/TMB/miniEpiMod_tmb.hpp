@@ -22,17 +22,16 @@ template<class Type>
   // Priors
   PARAMETER(log_foi);
   Type foi = exp(log_foi);
-  nll -= dnorm(log(foi), Type(log(0.5)), Type(1.0), true);
+  nll -= dnorm(log(foi), Type(log(0.02)), Type(1.0), true);
   Sim<Type> sim(simForward<Type>(foi, N));
 
   // likelihood
+  // TODO: look into using an array of indices to evaluate all at once (no for loop)
   for(int i = 0; i < data_idx.size(); i++) {
     nll -= dnorm(data_mean(i),
                 sim.x_out(1, data_idx[i] - 1),
                 data_sd(i), true);
   }
-
-
 
   // REPORT(x_out);
 
