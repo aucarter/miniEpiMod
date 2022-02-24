@@ -12,18 +12,20 @@ template<class Type>
 
   using Eigen::Matrix;
 
-  DATA_INTEGER(N);
+  DATA_INTEGER(time_steps);
   DATA_VECTOR(data_mean);
   DATA_VECTOR(data_sd);
   DATA_IVECTOR(data_idx);
-
+  DATA_SCALAR(second_order_diff_penalty);
+  DATA_MATRIX(foi_design)
+  
   Type nll(0.0);
 
   // Priors
-  PARAMETER(log_foi);
-  Type foi = exp(log_foi);
-  nll -= dnorm(log(foi), Type(log(0.02)), Type(1.0), true);
-  Sim<Type> sim(simForward<Type>(foi, N));
+  PARAMETER_VECTOR(log_foi);
+  vector<Type> foi = foi_design * exp(log_foi);
+  nll -= dnorm(log_foi, Type(log(0.5)), Type(5.0), true).sum();
+  Sim<Type> sim(simForward<Type>(foi, time_steps));
 
   // likelihood
   // TODO: look into using an array of indices to evaluate all at once (no for loop)
@@ -31,6 +33,11 @@ template<class Type>
     nll -= dnorm(data_mean(i),
                 sim.x_out(1, data_idx[i] - 1),
                 data_sd(i), true);
+  }
+
+  // Second-order difference penalty
+  for(int i = 0; i < log_foi.size() - 1; i++) {
+    nll += second_order_diff_penalty * pow((log_foi(i + 2) - log_foi(i + 1)) - (log_foi(i + 1) - log_foi(i)), 2);
   }
 
   // REPORT(x_out);

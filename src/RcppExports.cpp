@@ -12,14 +12,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // simForwardR
-Rcpp::List simForwardR(double foi, int N);
-RcppExport SEXP _miniEpiMod_simForwardR(SEXP foiSEXP, SEXP NSEXP) {
+Rcpp::List simForwardR(const Eigen::Map<Eigen::MatrixXd> foi, int time_steps);
+RcppExport SEXP _miniEpiMod_simForwardR(SEXP foiSEXP, SEXP time_stepsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type foi(foiSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(simForwardR(foi, N));
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type foi(foiSEXP);
+    Rcpp::traits::input_parameter< int >::type time_steps(time_stepsSEXP);
+    rcpp_result_gen = Rcpp::wrap(simForwardR(foi, time_steps));
     return rcpp_result_gen;
 END_RCPP
 }

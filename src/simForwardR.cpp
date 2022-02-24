@@ -4,8 +4,8 @@
 
 // [[Rcpp::export]]
 Rcpp::List
-simForwardR(double foi,int N){
-  Sim<double> sim(simForward<double>(foi, N));
+simForwardR(const Eigen::Map<Eigen::MatrixXd> foi,int time_steps){
+  Sim<double> sim(simForward<double>(foi, time_steps));
   return Rcpp::List::create(Rcpp::Named("x_out") = sim.x_out,
-                            Rcpp::Named("tpm") = sim.tpm);
+                            Rcpp::Named("tpm_base") = sim.tpm_base);
 }
