@@ -17,7 +17,8 @@ template<class Type>
   DATA_VECTOR(data_sd);
   DATA_IVECTOR(data_idx);
   DATA_SCALAR(second_order_diff_penalty);
-  DATA_MATRIX(foi_design)
+  DATA_MATRIX(foi_design); 
+  DATA_MATRIX(tpm_base);
   
   Type nll(0.0);
 
@@ -25,7 +26,7 @@ template<class Type>
   PARAMETER_VECTOR(log_foi);
   vector<Type> foi = foi_design * exp(log_foi);
   nll -= dnorm(log_foi, Type(log(0.5)), Type(5.0), true).sum();
-  Sim<Type> sim(simForward<Type>(foi, time_steps));
+  Sim<Type> sim(simForward<Type>(foi, time_steps, tpm_base));
 
   // likelihood
   // TODO: look into using an array of indices to evaluate all at once (no for loop)

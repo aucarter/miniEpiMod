@@ -13,15 +13,13 @@ public:
   MatrixXXT tpm_base;
   MatrixXXT x_out;
 
-  Sim(const Eigen::Matrix<Type, Eigen::Dynamic, 1>& foi,const int time_steps):
+  Sim(const Eigen::Matrix<Type, Eigen::Dynamic, 1>& foi,const int time_steps,
+      const Eigen::Matrix<Type, Eigen::Dynamic, Eigen::Dynamic>& tpm_base):
     foi { foi },
     time_steps { time_steps },
-    tpm_base { MatrixXXT(3, 3) },
-    x_out{ MatrixXXT(3, time_steps) }
+    tpm_base { tpm_base },
+    x_out{ MatrixXXT(tpm_base.rows(), time_steps) }
     {
-      tpm_base << 1.0, 0.20, 0.0,
-                  0.0, 0.75, 0.5,
-                  0.0, 0.05, 0.5;
       MatrixXXT tpm = tpm_base;
       tpm.col(0) << 1 - foi(0), foi(0), 0;
       // Eigen::EigenSolver<MatrixXXT> es(tpm);
@@ -46,8 +44,9 @@ void Sim<Type>::stepForward(int i) {
 
 template <typename Type>
 Sim<Type>
-simForward(Eigen::Matrix<Type, Eigen::Dynamic, Eigen::Dynamic> foi, const int time_steps) {
-  Sim<Type> sim(foi, time_steps);
+simForward(Eigen::Matrix<Type, Eigen::Dynamic, 1> foi, const int time_steps,
+           Eigen::Matrix<Type, Eigen::Dynamic, Eigen::Dynamic> tpm_base) {
+  Sim<Type> sim(foi, time_steps, tpm_base);
   for (int i = 1; i < time_steps; i++) {
     sim.stepForward(i);
   }
