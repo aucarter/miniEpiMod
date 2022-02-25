@@ -20,14 +20,14 @@ public:
     tpm_base { tpm_base },
     x_out{ MatrixXXT(tpm_base.rows(), time_steps) }
     {
+      // Set up TPM
       MatrixXXT tpm = tpm_base;
-      tpm.col(0) << 1 - foi(0), foi(0), 0;
-      // Eigen::EigenSolver<MatrixXXT> es(tpm);
-      // MatrixXXT first_ev = es.eigenvectors().real().col(0);
-      // MatrixXXT ev_stand = first_ev / first_ev.sum();
-      // x_out.col(0) = ev_stand;
-      x_out.col(0) << 1, 0, 0;
-      for (int i = 0; i < 100; i++) {
+      tpm(0, 0) = 1 - foi(0);
+      tpm(1, 0) = foi(0);
+      // Set up initial state
+      x_out.col(0) = Eigen::Matrix<Type, 1, Eigen::Dynamic>::Zero(tpm_base.rows());
+      x_out(0, 0) = 1.0;
+      for (int i = 0; i < 20; i++) {
         x_out.col(0) = tpm * x_out.col(0);
       }
     };
@@ -38,7 +38,8 @@ public:
 template <typename Type>
 void Sim<Type>::stepForward(int i) {
   MatrixXXT tpm = tpm_base;
-  tpm.col(0) << 1 - foi(i), foi(i), 0;
+  tpm(0, 0) = 1 - foi(i);
+  tpm(1, 0) = foi(i);
   x_out.col(i) = tpm * x_out.col(i - 1);
 }
 
