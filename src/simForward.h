@@ -3,7 +3,6 @@
 
 # include <Eigen/Dense>
 
-
 template <typename Type>
 class Sim{
   // Use this as the Eigen matrix that can hold ADC
