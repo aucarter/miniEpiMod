@@ -12,15 +12,15 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // simForwardR
-Rcpp::List simForwardR(const Eigen::Map<Eigen::MatrixXd> foi, int time_steps, const Eigen::Map<Eigen::MatrixXd> tpm_base);
-RcppExport SEXP _miniEpiMod_simForwardR(SEXP foiSEXP, SEXP time_stepsSEXP, SEXP tpm_baseSEXP) {
+Rcpp::List simForwardR(const Eigen::Map<Eigen::MatrixXd> rt, int time_steps, const Eigen::Map<Eigen::MatrixXd> tpm_base);
+RcppExport SEXP _miniEpiMod_simForwardR(SEXP rtSEXP, SEXP time_stepsSEXP, SEXP tpm_baseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type foi(foiSEXP);
+    Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type rt(rtSEXP);
     Rcpp::traits::input_parameter< int >::type time_steps(time_stepsSEXP);
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd> >::type tpm_base(tpm_baseSEXP);
-    rcpp_result_gen = Rcpp::wrap(simForwardR(foi, time_steps, tpm_base));
+    rcpp_result_gen = Rcpp::wrap(simForwardR(rt, time_steps, tpm_base));
     return rcpp_result_gen;
 END_RCPP
 }
