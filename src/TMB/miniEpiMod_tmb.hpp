@@ -17,16 +17,16 @@ template<class Type>
   DATA_VECTOR(data_sd);
   DATA_IVECTOR(data_idx);
   DATA_SCALAR(second_order_diff_penalty);
-  DATA_MATRIX(rt_design); 
+  DATA_MATRIX(foi_design); 
   DATA_MATRIX(tpm_base);
   
   Type nll(0.0);
 
   // Priors
-  PARAMETER_VECTOR(log_rt);
-  vector<Type> rt = rt_design * exp(log_rt);
-  nll -= dnorm(log_rt, Type(log(0.5)), Type(5.0), true).sum();
-  Sim<Type> sim(simForward<Type>(rt, time_steps, tpm_base));
+  PARAMETER_VECTOR(probit_foi);
+  vector<Type> foi = foi_design * pnorm(probit_foi);
+  nll -= dnorm(probit_foi, Type(log(1)), Type(5.0), true).sum();
+  Sim<Type> sim(simForward<Type>(foi, time_steps, tpm_base));
 
   // likelihood
   // TODO: look into using an array of indices to evaluate all at once (no for loop)
@@ -37,11 +37,11 @@ template<class Type>
   }
 
   // Second-order difference penalty
-  for(int i = 0; i < log_rt.size() - 1; i++) {
-    nll += second_order_diff_penalty * pow((log_rt(i + 2) - log_rt(i + 1)) - (log_rt(i + 1) - log_rt(i)), 2);
+  for(int i = 0; i < probit_foi.size() - 1; i++) {
+    nll += second_order_diff_penalty * pow((probit_foi(i + 2) - probit_foi(i + 1)) - (probit_foi(i + 1) - probit_foi(i)), 2);
   }
 
-  // REPORT(x_out);
+  // REPOfoi(x_out);
 
   return Type(nll);
 }

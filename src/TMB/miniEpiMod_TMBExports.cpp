@@ -10,7 +10,7 @@ Type objective_function<Type>::operator() () {
   if(model == "miniEpiMod_tmb") {
     return miniEpiMod_tmb(this);
   } else {
-    error("Unknown model.");
+    Rf_error("Unknown model.");
   }
   return 0;
 }
