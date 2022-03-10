@@ -13,3 +13,9 @@ plot_x_t(x_t, params, run, data)
 
 fit_foi <- foi_fn(fit, params$N * floor(365 / params$step))
 plot(fit_foi, type = 'l')
+library(lubridate)
+data$month <- month(data$time)
+
+data <- data.table(data)
+data <- data[, .(pfpr_mean = mean(mean)), by = .(month)]
+ggplot(data, aes(x = as.factor(month), y = pfpr_mean)) + geom_bar(stat = "identity")

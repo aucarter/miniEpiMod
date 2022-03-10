@@ -36,6 +36,8 @@ template<class Type>
                 data_sd(i), true);
   }
 
+  
+  
   // Second-order difference penalty
   for(int i = 0; i < log_rt.size() - 1; i++) {
     nll += second_order_diff_penalty * pow((log_rt(i + 2) - log_rt(i + 1)) - (log_rt(i + 1) - log_rt(i)), 2);

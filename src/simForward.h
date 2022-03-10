@@ -13,8 +13,11 @@ public:
   MatrixXXT tpm_base;
   MatrixXXT x_out;
 
-  Sim(const Eigen::Matrix<Type, Eigen::Dynamic, 1>& rt,const int time_steps,
-      const Eigen::Matrix<Type, Eigen::Dynamic, Eigen::Dynamic>& tpm_base):
+  Sim(
+    const Eigen::Matrix<Type, Eigen::Dynamic, 1>& rt,
+    const int time_steps,
+    const Eigen::Matrix<Type, Eigen::Dynamic, Eigen::Dynamic>& tpm_base
+  ):
     rt { rt },
     time_steps { time_steps },
     tpm_base { tpm_base },
