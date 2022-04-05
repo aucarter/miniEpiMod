@@ -1,4 +1,5 @@
 library(malariaAtlas); library(data.table); library(lubridate); library(ggplot2)
+library(viridis)
 # Pull data 
 map_data <- getPR("Uganda", species = "Pf")
 # map_data <- fillDHSCoordinates(map_data, email = "aucarter@uw.edu", project = "Burden of HIV")
@@ -59,3 +60,7 @@ lines(t, vm_mix(t, fit$par), type = 'l', col = 'red')
 
 y <- vm_mix(t, fit$par)
 plot(y / y[1], type = 'l')
+
+rainfall_dt <- fread("~/Downloads/monthly-climatology-of-min-temperature,-mean-temperature,-max-temperature-&-precipitation-1991-2020 br_ uganda.csv")
+rainfall_dt[, rain_prop := Precipitation/sum(Precipitation)]
+lines(0:12, rainfall_dt$rain_prop[c(12, 1:12)])
